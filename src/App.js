@@ -1,25 +1,39 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import { ToastContainer } from 'react-toastify';
+
+import Searchbar from './components/Searchbar/Searchbar';
+import ImageGallery from './components/ImageGallery/ImageGallery';
+
+
+
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+class App extends Component {
+  state = {
+    keyWord: '',
+  }
+
+  handleKeywordSubmit = (imageKeyWord) => {
+    this.setState({ keyWord: imageKeyWord });
+  }
+
+
+  render() {
+    const { keyWord } = this.state;
+    return (
+      <div className="App">
+        <Searchbar onSubmitKeyword={this.handleKeywordSubmit}/>
+        <ImageGallery keyWord={keyWord} />
+        
+
+        <ToastContainer position="top-right"
+          autoClose={3000}
+          />
     </div>
   );
+  }
+  
 }
 
 export default App;
