@@ -22,6 +22,7 @@ export default class ImageGallery extends Component {
 
     if (prevProps.keyWord !== keyWord) {
       this.setState({ status: "pending", page: 1 });
+
       API(keyWord, page)
         .then((images) => {
           if (images.total === 0) {
@@ -30,10 +31,11 @@ export default class ImageGallery extends Component {
             return;
           }
 
-          this.setState({
+          this.setState((prevState) => ({
             images: images.hits,
             status: "resolved",
-          });
+            page: prevState.page + 1,
+          }));
         })
         .catch((error) => {
           this.setState({
@@ -45,7 +47,6 @@ export default class ImageGallery extends Component {
   }
 
   getNextPage = () => {
-    console.log("on Load next page");
     const { page } = this.state;
     const { keyWord } = this.props;
     API(keyWord, page).then((images) => {
